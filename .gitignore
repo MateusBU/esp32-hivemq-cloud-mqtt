@@ -1,0 +1,30 @@
+# ========================
+# ESP-IDF
+# ========================
+build/
+sdkconfig
+sdkconfig.old
+dependencies.lock
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Binários
+*.bin
+*.elf
+*.map
+
+# Credenciais
+main/secrets.h
+
+# Sistema
+.DS_Store
+Thumbs.db
