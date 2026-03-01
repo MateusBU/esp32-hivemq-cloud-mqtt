@@ -3,6 +3,8 @@ idf_component_register(
         "main.c"
         "wifi_manager.c"
         "mqtt_manager.c"
+        "config.c"
+        "nvs_manager.c"
 
     INCLUDE_DIRS
         "."

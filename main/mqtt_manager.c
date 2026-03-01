@@ -5,8 +5,9 @@
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "mqtt_manager.h"
 
+#include "mqtt_manager.h"
+#include "nvs_manager.h"
 #include "secrets.h"
 /* ===========================
  *           DEFINES
@@ -63,15 +64,17 @@ static void mqtt_task(void *pvParameters)
     };
 
     char topic[64];
-    sprintf(topic, "devices/%s/data", DEVICE_ID);
+    sprintf(topic, "devices/%s/data", nvs_paramaters.device_id);
+    ESP_LOGI(TAG, "device id: %s", nvs_paramaters.device_id);
 
 
     client = esp_mqtt_client_init(&mqtt_cfg);
-    esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL);
+    esp_mqtt_client_register_event(client, ESP_EVENT_ANY_ID, mqtt_event_handler, NULL); //register callback mqtt_event_handler
     esp_mqtt_client_start(client);
 
     while (1)
     {
+        //esp_mqtt_client_publish(client, topic, payload, len, qos, retain);
         int msg_id = esp_mqtt_client_publish(client, topic, "Mensagem do ESP32", 0, 1, 0);
         ESP_LOGI(TAG, "Publish msg_id=%d", msg_id);
 

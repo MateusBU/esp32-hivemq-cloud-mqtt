@@ -2,14 +2,10 @@
 /* ===========================
 *          INCLUDES
 * =========================== */
-#include "esp_log.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
+#include "esp_system.h"
+#include "esp_mac.h"
 
-#include "mqtt_manager.h"
-#include "nvs_manager.h"
-#include "wifi_manager.h"
-
+#include "config.h"
 /* ===========================
  *           DEFINES
  * =========================== */
@@ -17,7 +13,6 @@
 /* ===========================
  *     LOCAL VARIABLES
  * =========================== */
-static const char *TAG = "MAIN";
 
 /* ===========================
  *    LOCAL PROTOTYPES
@@ -26,23 +21,15 @@ static const char *TAG = "MAIN";
 /* ===========================
  *   GLOBAL FUNCTIONS
  * =========================== */
-void app_main(void)
+void config_generate_device_id(char *buffer, size_t size)
 {
-    esp_err_t err = nvs_manager_init();
-    if(err != ESP_OK)
-    {
-        ESP_LOGE(TAG, "NVS_MANAGER_INIT ERROR");
-    }
+    uint8_t mac[6];
+    esp_read_mac(mac, ESP_MAC_WIFI_STA);
 
-    wifi_init();
-
-    // Espera WiFi conectar
-    while (!wifi_is_connected())
-    {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-
-    mqtt_start();
+    snprintf(buffer, size,
+             "esp32_%02X%02X%02X%02X%02X%02X",
+             mac[0], mac[1], mac[2],
+             mac[3], mac[4], mac[5]);
 }
 /* ===========================
  *   LOCAL FUNCTIONS

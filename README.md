@@ -129,18 +129,41 @@ The task:
 
 This separation keeps the system modular, clean, and scalable.
 
+## NVS Manager
+
+The project includes a persistent storage layer using **ESP32 NVS (Non-Volatile Storage)** to retain device configuration across reboots.
+
+The NVS manager handles:
+
+- First boot detection and default parameter initialization
+- Persistent storage of WiFi credentials (SSID and password)
+- Device ID storage
+- Read/write abstraction for all parameters
+
+### Stored Parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `first_boot` | `uint16_t` | Flag to detect first boot and write defaults |
+| `wifi.ssid` | `char[]` | WiFi network name |
+| `wifi.password` | `char[]` | WiFi network password |
+| `device_id` | `char[]` | Unique device identifier used in MQTT topics |
 
 # Project Structure
     main/
+    ├── config.c
+    ├── config.h
     ├── main.c
     ├── mqtt_manager.c
     ├── mqtt_manager.h
-    ├── wifi_manager.c
-    ├── wifi_manager.h
+    ├── nvs_manager.c
+    ├── nvs_manager.h
     ├── secrets.h (ignored in git)
     ├── secrets_example.h (template)
+    ├── wifi_manager.c
+    ├── wifi_manager.h
     ├── certs/
-    │ └── isrg-root-x1-cross-signed.pem
+    │   └── isrg-root-x1-cross-signed.pem
 
 
 # Security Model
