@@ -46,7 +46,7 @@ typedef struct
 } nvs_parameters_t;
 
 
-nvs_parameters_t nvs_paramaters;
+nvs_parameters_t nvs_parameters;
 /* ===========================
  *   FUNCTION DECLARATIONS
  * =========================== */

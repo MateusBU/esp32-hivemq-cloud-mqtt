@@ -54,8 +54,8 @@ void wifi_init(void)
 
     memset(&wifi_config, 0, sizeof(wifi_config));
 
-    strcpy((char *)wifi_config.sta.ssid, nvs_paramaters.wifi.ssid);
-    strcpy((char *)wifi_config.sta.password, nvs_paramaters.wifi.password);
+    strcpy((char *)wifi_config.sta.ssid, nvs_parameters.wifi.ssid);
+    strcpy((char *)wifi_config.sta.password, nvs_parameters.wifi.password);
 
     esp_wifi_set_mode(WIFI_MODE_STA); //WIFI_MODE_STA = client mode, connnected to a wifi signal. WIFI_MODE_AP = ESP becomes an router
     esp_wifi_set_config(WIFI_IF_STA, &wifi_config);

@@ -40,7 +40,7 @@ esp_err_t nvs_manager_init(void)
     }
     ESP_ERROR_CHECK(ret);
 
-    esp_err_t err = nvs_read_u16(dNVS_KEY_FIRST_BOOT, &nvs_paramaters.first_boot);
+    esp_err_t err = nvs_read_u16(dNVS_KEY_FIRST_BOOT, &nvs_parameters.first_boot);
     if(err == ESP_ERR_NVS_NOT_FOUND)
     {
         ESP_LOGI(TAG, "NOT FOUND");
@@ -139,32 +139,32 @@ esp_err_t nvs_read_blob(const char *key, void *buffer, size_t *required_size)
  * =========================== */
 static esp_err_t nvs_manager_read_all(void)
 {
-    size_t blob_size = sizeof(nvs_paramaters.wifi);
+    size_t blob_size = sizeof(nvs_parameters.wifi);
 
-    ESP_RETURN_ON_ERROR(nvs_read_u16(dNVS_KEY_FIRST_BOOT, &nvs_paramaters.first_boot), TAG, "read first_boot failed");
+    ESP_RETURN_ON_ERROR(nvs_read_u16(dNVS_KEY_FIRST_BOOT, &nvs_parameters.first_boot), TAG, "read first_boot failed");
 
-    ESP_RETURN_ON_ERROR(nvs_read_str(dNVS_KEY_DEVICE_ID, nvs_paramaters.device_id, sizeof(nvs_paramaters.device_id)), TAG, "read device_id failed");
+    ESP_RETURN_ON_ERROR(nvs_read_str(dNVS_KEY_DEVICE_ID, nvs_parameters.device_id, sizeof(nvs_parameters.device_id)), TAG, "read device_id failed");
 
-    ESP_RETURN_ON_ERROR(nvs_read_blob(dNVS_KEY_WIFI_CFG, &nvs_paramaters.wifi, &blob_size), TAG, "read wifi failed");
+    ESP_RETURN_ON_ERROR(nvs_read_blob(dNVS_KEY_WIFI_CFG, &nvs_parameters.wifi, &blob_size), TAG, "read wifi failed");
 
     return ESP_OK;
 }
 
 static esp_err_t nvs_manager_write_all_default(void)
 {
-    nvs_paramaters.first_boot = dNVS_FIRST_BOOT_VALUE;
+    nvs_parameters.first_boot = dNVS_FIRST_BOOT_VALUE;
 
-    strncpy(nvs_paramaters.wifi.ssid, dNVS_WIFI_SSID_VALUE, WIFI_MAX_SSID_LEN - 1);
+    strncpy(nvs_parameters.wifi.ssid, dNVS_WIFI_SSID_VALUE, WIFI_MAX_SSID_LEN - 1);
 
-    strncpy(nvs_paramaters.wifi.password, dNVS_WIFI_PASSWORD_VALUE, WIFI_MAX_PASS_LEN - 1);
+    strncpy(nvs_parameters.wifi.password, dNVS_WIFI_PASSWORD_VALUE, WIFI_MAX_PASS_LEN - 1);
 
-    config_generate_device_id(nvs_paramaters.device_id, sizeof(nvs_paramaters.device_id));
+    config_generate_device_id(nvs_parameters.device_id, sizeof(nvs_parameters.device_id));
 
-    ESP_RETURN_ON_ERROR(nvs_write_u16(dNVS_KEY_FIRST_BOOT,  nvs_paramaters.first_boot), TAG, "write first_boot failed");
+    ESP_RETURN_ON_ERROR(nvs_write_u16(dNVS_KEY_FIRST_BOOT,  nvs_parameters.first_boot), TAG, "write first_boot failed");
 
-    ESP_RETURN_ON_ERROR(nvs_write_blob(dNVS_KEY_WIFI_CFG, &nvs_paramaters.wifi, sizeof(nvs_paramaters.wifi)), TAG, "write wifi failed");
+    ESP_RETURN_ON_ERROR(nvs_write_blob(dNVS_KEY_WIFI_CFG, &nvs_parameters.wifi, sizeof(nvs_parameters.wifi)), TAG, "write wifi failed");
 
-    ESP_RETURN_ON_ERROR(nvs_write_str(dNVS_KEY_DEVICE_ID, nvs_paramaters.device_id), TAG, "write device_id failed");
+    ESP_RETURN_ON_ERROR(nvs_write_str(dNVS_KEY_DEVICE_ID, nvs_parameters.device_id), TAG, "write device_id failed");
 
     return ESP_OK;
 }
